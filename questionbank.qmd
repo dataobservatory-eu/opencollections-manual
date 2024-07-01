@@ -32,17 +32,17 @@ And a question based on a model question, taken from
 
 Our model questions follow the following format:
 
--   `questionText (description)`, `[ ]` `concept`, for example: , where the question connects to a concept, such as [environmental protection (Q131)](https://reprexbase.eu/demowiki/index.php?title=Item:Q131).
--   `questionText (description)`, `[ ]` `scale`, for example:
--   `questionText (description)`, `[ ]` `category`, for example:
--   `questionText (description)`, `[ ]` \`ranking\`\`, for example:
--   `questionText (description)`, `[ ]` `concept`, `scale` for example:
+-   `questionText (description)`, `[ ]` `concept`, where the question connects to a concept, such as [environmental protection (Q131)](https://reprexbase.eu/demowiki/index.php?title=Item:Q131).
+-   `questionText (description)`, `[ ]` `scale`, where the answers are on a scale, for example [Estimated number of employees in FTE \[model\] (Q123)](https://reprexbase.eu/demowiki/index.php?title=Item:Q123)
+-   `questionText (description)`, `[ ]` `category`, where the answer options are categories, for example: [Reduced use of single use plastic bags \[model\] (Q112)](https://reprexbase.eu/demowiki/index.php?title=Item:Q112)
+-   `questionText (description)`, `[ ]` `ranking`, where the respondent has to create a rank from the answer options, for example: [Important environmental issue \[model\] (Q143)](https://reprexbase.eu/demowiki/index.php?title=Item:Q143)
+-   `questionText (description)`, `[ ]` `concept,` `[ ] scale,` where beside the model question there are other sub-questions as well, for example: [Important for reduction of plastic \[model\] (Q128)](https://reprexbase.eu/demowiki/index.php?title=Item:Q128)
 
 The DDI-Discovery ontology requires the questions to take this format:
 
 > *Please tell me to what extent you agree or disagree with the following statement: “I trust that products carrying the EU ecolabel are environmentally-friendly.” \[ \], Agree \[ \], \[ \], Disagree \[ \], DK*
 
-This is a good representation to for an existing questionnaire, but it is not really good for a questionbank, because in some cases, the agreement scale may be a 3-level, in others, a 5-level agreement scale. This is why we separately record the model question and the answer options.
+This is a good representation to for an existing questionnaire, but it is not really good for a questionbank, because in some cases, the agreement scale may be a 3-level, in others, a 5-level agreement scale. This is why we separately record the model question, the subquestions and the answer options.
 
 ::: callout-note
 Note: There should be a space between the square brackets \["space"\]
@@ -58,18 +58,29 @@ Note: There should be a space between the square brackets \["space"\]
 
 ## Example
 
-### 1. Access Wikibase
-
-Login in with you account to Wikibase.
-
 ### 2. Create a New Question Item
 
-::: note 
-For a clearer definition, see  the [disco:Question](https://rdf-vocabulary.ddialliance.org/discovery.html#question) class.
+Different question types have different elements. Some questions consist of one question, others have group questions and several sub-questions. Let's see how to feed into Wikibase:
 
+-   Simple Questions
+
+<!-- -->
+
+-   Matrix Questions
+
+-   Multiple Choice Questions
+
+#### Simple Questions
+
+In case of Simple Questions there's only one question.
+
+::: callout-note
+## For a clearer definition, see the disco:Question class
 :::
 
-Go to "Special Pages"
+![](png/question_to_wikibase/question_simple_2x1.png){fig-align="center"}
+
+Let's see how to create a simple question entry in Wikibase. Go to "Special Pages"
 
 ![](png/question_to_wikibase/wikidata_specialPages_2x1.png){fig-align="center"}
 
@@ -99,9 +110,92 @@ The question now is created on Wikibase.
 Note: The system assigns a unique ID to every entry. In our example the ID is [Q111](https://reprexbase.eu/demowiki/index.php?title=Item:Q111).
 :::
 
+#### Matrix Questions
+
+Matrix questions have:
+
+-   a model question
+
+-   several question items
+
+-   answer options
+
+![](png/question_to_wikibase/matrix_question.png){fig-align="center"}
+
+Following the functions "Special Pages" -\> "Create New Item" you should feed into Wibikbase separately the model question and the questions items.
+
+[Q128](https://reprexbase.eu/demowiki/index.php?title=Item:Q128) is the model question, which follows the structure:
+
+-   Language - Choose the language (en)
+
+-   Label - *questionName + \[model\]* - `Important for reduction of plastic [model]` 
+
+-   questionText (description)
+
+    -   `In your opinion, how important is each of the following in reducing plastic waste and littering?`
+
+    -   `[ ]` `concept` - stands for the question items
+
+    -   `[ ]` `scale` - stands for the answer options, which follow a scale
+
+-   Aliases - leave it empty
+
+[Q140](https://reprexbase.eu/demowiki/index.php?title=Item:Q140) is a sub-questions, which follows the structure:
+
+-   Language - Choose the language (en)
+-   label: `Important for reduction of plastic - collection facilities`
+-   questionText (description)
+    -   model question - `In your opinion, how important is each of the following in reducing plastic waste and littering?`
+    -   question item: `[ ] Local authorities should provide more and better collection facilities for plastic waste`
+    -   `[ ]` `scale` - stands for the answer options, which follow a scale
+-   Aliases - leave it empty
+
+::: callout-note
+## When creating a "question item", using statements always connect the "question item" to the "model question"
+:::
+
+#### Multiple Choice Questions
+
+Matrix questions have:
+
+-   a model question
+
+-   several question items
+
+![](png/question_to_wikibase/question_multipleChoice_6x4.png){fig-align="center"}
+
+Following the functions "Special Pages" -\> "Create New Item" you should feed into Wibikbase separately the model question and the questions items.
+
+[Q143](https://reprexbase.eu/demowiki/index.php?title=Item:Q143) is the model question, which follows the structure:
+
+-   Language - Choose the language (en)
+
+-   Label - *questionName + \[model\]* - ``` Important environmental issue``[model] ``` 
+
+-   questionText (description)
+
+    -   `From the following list, please pick the four environmental issues which you consider the most important.`
+
+    -   `[ ] ranking` - stands for the question items
+
+-   Aliases - leave it empty
+
+[Q144](https://reprexbase.eu/demowiki/index.php?title=Item:Q144) is a question item, which follows the structure:
+
+-   Language - Choose the language (en)
+-   label: `Important for reduction of plastic - collection facilities`
+-   questionText (description)
+    -   model question - `From the following list, please pick the four environmental issues which you consider the most important.`
+    -   question item - `[ ] Decline or extinction of species and habitats, and of natural ecosystems (forests, fertile soils)`
+-   Aliases - leave it empty
+
+::: callout-note
+## When creating a "question item", using statements always connect the "question item" to the "model question"
+:::
+
 ### 3. Add Metadata Statements
 
-You need to add further metadata statements to the question bank item.  Metadata is a statement about the data.  We are adding standard, basic statements in subject, predicate, and object (triplet) format to each question bank item.
+You need to add further metadata statements to the question bank item. Metadata is a statement about the data. We are adding standard, basic statements in subject, predicate, and object (triplet) format to each question bank item.
 
 #### Questionnaire Classes
 
@@ -113,24 +207,31 @@ Select `+add statement`.
 
 Using the [instance of](https://reprexbase.eu/demowiki/index.php?title=Property:P2) property, which is defining the taxonomical class of the entered item (in this case, a question.)
 
+In case of simple questions, with one questions define them as "`questions`".
+
 ![](png/question_to_wikibase/statement_property_and_class_2x1.png){fig-align="center"}
+
+In case of multiple questions (matrix, multiple choice) define your `model questions` and the `question items`, then accordingly categorize them with the [instance of](https://reprexbase.eu/demowiki/index.php?title=Property:P2) property.
+
+::: callout-caution
+## In the case of questions items, always link them to the appropriate model questions using the [model question (P266)](https://reprexbase.eu/demowiki/index.php?title=Property:P266) property.
+:::
 
 #### Variable Representation
 
 When the questionnaire will be filled out in a raw dataset, each response of a question(item) will be translated into a variable. We need to define how we want to represent those answers in the resulting output dataset. (See [DDI 3.3 (2020) documentation - Variable Value Representation and Question Response Domain](https://ddi-lifecycle-documentation.readthedocs.io/en/latest/TechnicalGuide/Value%20Representation%20and%20Response%20Domain.html))
 
-
 Using statements you can define the representation of the variables. You can choose from the following categories:
 
--  [x] category representation base type: if the answers are categories (for example: `[ ] Female`, `[ ] Male`, `[ ] Prefer not to say`)
+-   [x] category representation base type: if the answers are categories (for example: `[ ] Female`, `[ ] Male`, `[ ] Prefer not to say`)
 
--  [x] category representation base type with a **scale**: if the answers are categories and follow a scale (for example: `[] Very important`,  `[ ] Fairly important`,  `[ ] Not very important`, `[ ] Not at all important`. )
+-   [x] category representation base type with a **scale**: if the answers are categories and follow a scale (for example: `[] Very important`, `[ ] Fairly important`, `[ ] Not very important`, `[ ] Not at all important`. )
 
--  [x]  ranking representation base type: the respondant must rank the answer options, like 1st, 2nd, 3rd, etc.
+-   [x] ranking representation base type: the respondant must rank the answer options, like 1st, 2nd, 3rd, etc.
 
--  [x] numeric variable representation base type: the answer should be a number, for example, the age of the respondant as an integer number or a postal code in a country where postal codes contain only numeric digits, f.e., `1051`.
+-   [x] numeric variable representation base type: the answer should be a number, for example, the age of the respondant as an integer number or a postal code in a country where postal codes contain only numeric digits, f.e., `1051`.
 
--  [x]  textual variable representation base type: the answer should be some text, for example, and open answer, or a geographical location typed as a simple text, for example, `Bratislava`.
+-   [x] textual variable representation base type: the answer should be some text, for example, and open answer, or a geographical location typed as a simple text, for example, `Bratislava`.
 
 ![](png/question_to_wikibase/VariableRepresentation_6x4.png){fig-align="center"}
 
@@ -139,7 +240,6 @@ Using statements you can define the representation of the variables. You can cho
 ::: callout-tip
 For further details, please check the [disco:Study](https://rdf-vocabulary.ddialliance.org/discovery.html#study) class.
 :::
-
 
 With the [study (DDI) P270](https://reprexbase.eu/demowiki/index.php?title=Property:P270) property you must link as a statement the *study* where you found the (model) question (item).
 
@@ -156,6 +256,14 @@ Note: If the study is not yet in Wikibase, you can create an entry for it using 
 With the [related survey concept (P267)](https://reprexbase.eu/demowiki/index.php?title=Property:P267) property you can link concepts, that a study (group), question (group) or question item aims to measure, for example [environmental protection (Q131)](https://reprexbase.eu/demowiki/index.php?title=Item:Q131).
 
 ![](png/question_to_wikibase/statement_relatedSurveyConcept_2x1.png){fig-align="center"}
+
+Where are the related concepts coming from?
+
+1\. The best case is that you use a widely accepted conceptualisation (ontology item) of your domain. For example, we took the [study (Q149)](https://reprexbase.eu/demowiki/index.php?title=Item:Q138) concept from the DDI-Discovery (disco) ontology. You can connect statements of equivalence to a well-defined ontology via [equivalent class (P69)](https://reprexbase.eu/demowiki/index.php?title=Property:P69). In other words, our Q149 entity is equivalent to DDI's `Study`.
+
+2\. If there are no accepted ontologies or you are uncertain, it is a very good practice to use a concept definition from Wikidata. Even in the case of an ontological definition, adding the Wikidata QID is a great idea because Wikidata connects equivalent definitions across various domains' ontologies. You can make a statement about an equivalent Wikidata URI (for an item) by [Wikibase URI (P73)](https://reprexbase.eu/demowiki/index.php?title=Property:P73). See, for example [plastic (Q148)](https://reprexbase.eu/demowiki/index.php?title=Item:Q148), [Wikibase URI (P73)](https://reprexbase.eu/demowiki/index.php?title=Property:P73), <https://www.wikidata.org/wiki/Q11474>, meaning that our `plastic` definition is equivalent to the Wikidata definition of `plastic`.
+
+3\. You can create your definition if you are still looking for a suitable definition in an accepted ontology or on Wikidata. For this, you should create a definition in Wikibase (as a new item.) See, for example, [model question (Q126)](https://reprexbase.eu/demowiki/index.php?title=Item:Q126), which is our own proprietary definition until we find a more consensual one.
 
 ### Add the questionText translations
 
